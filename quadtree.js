@@ -2,7 +2,7 @@ var AABB = require("./aabb.js");
 
 function Quadtree(level, bounds) {
     // data
-    this.maxObjects = 10; // defines how many objects a node can hold before it splits
+    this.maxObjects = 3; // defines how many objects a node can hold before it splits
     this.maxLevels = 5; // defines the deepest level subnode
     this.level = level; // current node level (0 being the topmost node)
     this.bounds = bounds; // represents the 2D space that the node occupies (AABB)
@@ -13,23 +13,23 @@ function Quadtree(level, bounds) {
 Quadtree.prototype.clear = function() {
     // Clears the tree
     this.objects = [];
-    for(var i=0; i < nodes.length; ++i) {
-        nodes[i].clear();
-        nodes[i] = null;
+    for(var i=0; i < this.nodes.length; i++) {
+        this.nodes[i].clear();
     }
+    this.nodes = [];
 }
 
 Quadtree.prototype.split = function() {
     // Splits the node into 4 subnodes
-    var subWidth = 0.5*bounds.getWidth();
-    var subHeight = 0.5*bounds.getHeight();
-    var x = bounds.getX();
-    var y = bounds.getY();
+    var subWidth = 0.5*this.bounds.getWidth();
+    var subHeight = 0.5*this.bounds.getHeight();
+    var x = this.bounds.getX();
+    var y = this.bounds.getY();
     
-    this.nodes[0] = new Quadtree(this.level+1, new AABB(x + subWidth, y, subWidth, subHeight));
-    this.nodes[1] = new Quadtree(this.level+1, new AABB(x, y, subWidth, subHeight));
-    this.nodes[2] = new Quadtree(this.level+1, new AABB(x, y + subHeight, subWidth, subHeight));
-    this.nodes[3] = new Quadtree(this.level+1, new AABB(x + subWidth, y + subHeight, subWidth, subHeight));
+    this.nodes[0] = new Quadtree(this.level+1, new AABB([x + subWidth, y], subWidth, subHeight));
+    this.nodes[1] = new Quadtree(this.level+1, new AABB([x, y], subWidth, subHeight));
+    this.nodes[2] = new Quadtree(this.level+1, new AABB([x, y + subHeight], subWidth, subHeight));
+    this.nodes[3] = new Quadtree(this.level+1, new AABB([x + subWidth, y + subHeight], subWidth, subHeight));
 }
 
 Quadtree.prototype.getIndex = function(AABB) {
@@ -81,10 +81,11 @@ Quadtree.prototype.insert = function(AABB) {
     // capacity, it will split and add all objects to their
     // corresponding nodes.
     if(this.nodes.length != 0) {
-        var index = getIndex(AABB);
+        var index = this.getIndex(AABB);
         
         if(index != -1) {
-            this.nodes[index] = insert(AABB)
+            this.nodes[index].insert(AABB)
+            return
         }
     }
     
@@ -92,14 +93,14 @@ Quadtree.prototype.insert = function(AABB) {
     
     if(this.objects.length > this.maxObjects && this.level < this.maxLevels) {
         if(this.nodes.length == 0) {
-            split();
+            this.split();
         }
         
         var i = 0;
         while(i < this.objects.length) {
-            var index = getIndex(objects[i]);
+            var index = this.getIndex(this.objects[i]);
             if (index != -1) {
-                this.nodes[index].insert(removeObject(i));
+                this.nodes[index].insert(this.removeObject(i));
             }
             else {
                 i++;
