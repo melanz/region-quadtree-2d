@@ -31,8 +31,8 @@ function drawAll() {
     context.fillStyle = "rgb(255, 255, 255)";
     context.fillRect(0, 0, bounds.getWidth()*scale, bounds.getHeight()*scale);
     
-    drawQuadtree(quadtree);
     drawObjects(quadtree);
+    drawQuadtree(quadtree);
 }
 
 function convertCartesianToPixels(point) {
@@ -65,9 +65,11 @@ function drawLine(startCart, endCart, color) {
     context.strokeStyle = color;//"rgb(255, 0, 0)"
     var start = convertCartesianToPixels(startCart);
     var end = convertCartesianToPixels(endCart);
+    context.beginPath();
     context.moveTo(start[0],start[1]);
     context.lineTo(end[0],end[1]);
     context.stroke();
+    context.closePath();
 }
 
 function drawBox(min,max,color) {
