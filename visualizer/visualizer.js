@@ -122,11 +122,7 @@ function addBoundingBox(event) {
     
     var aabb = new AABB([minX,minY],maxX-minX,maxY-minY);
     
-    console.log("Inserting...");
     quadtree.insert(aabb);
-    console.log("Success!");
-    
-    console.log(quadtree);
 }
 
 initialize()

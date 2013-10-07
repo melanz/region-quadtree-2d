@@ -109,15 +109,17 @@ Quadtree.prototype.insert = function(AABB) {
     }
 }
 
-//Quadtree.prototype.detectPotentialCollisions = function(AABB) {
-//	// Return all objects that could collide with the given object.
-//}
+Quadtree.prototype.detectPotentialCollisions = function(potentialCollisions, AABB) {
+	// Return all objects that could collide with the given object.
+    var index = this.getIndex(AABB);
+    if(index != -1 && this.nodes.length != 0) {
+        this.nodes[index].detectPotentialCollisions(potentialCollisions,AABB);
+    }
+    potentialCollisions.concat(this.objects);
+    
+    return potentialCollisions;
+}
 
 module.exports = Quadtree;
-//module.exports = Quadtree;
-
-
-//var bounds = new AABB([0,0],100,100);
-//console.log(bounds.getWidth());
 
 
