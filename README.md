@@ -1,33 +1,31 @@
-graham-scan
+region-quadtree-2d
 ==========
-Creates a convex hull using Graham's Scan.
+Creates a region quadtree in two dimensions. The region quadtree represents a partition of space in two dimensions by decomposing the region into four equal quadrants, subquadrants, and so on with each leaf node containing data corresponding to a specific subregion.
 
 ## Example
 
 ```javascript
-var grahamScan = require("../grahamScan.js")
+var Quadtree = require("../quadtree.js");
+var AABB = require("../aabb.js");
 
-var points = [[0,0],[1,0],[1,1],[0,1],[.5,.5],[-1,-1]];
+var bounds = new AABB([0,0], 100, 100);
 
-var boundaryPoints = grahamScan(points);
+var quadtree = new Quadtree(0,bounds);
+var aabb1 = new AABB([1,1],1,1);
+quadtree.insert(aabb1);
+var aabb2 = new AABB([10,10],1,1);
+quadtree.insert(aabb2);
 
-console.log(boundaryPoints);
+var potentialCollisions = new Array();
+quadtree.detectPotentialCollisions = function(potentialCollisions, aabb1);
 
-//Prints out boundary points
+console.log(potentialCollisions);
+//Prints out potential collisions
 ```
 
 ## Install
 
-    npm install graham-scan
-    
-## API
-
-### `require("graham-scan")(points)`
-Computes boundary points (ordered counter-clockwise) of points.
-
-* `points` is an array of 2d points
-
-**Returns** The boundary points.
+    npm install region-quadtree-2d
 
 ## Credits
 (c) 2013 Daniel Melanz. MIT License
