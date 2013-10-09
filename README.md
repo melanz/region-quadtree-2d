@@ -16,8 +16,8 @@ quadtree.insert(aabb1);
 var aabb2 = new AABB([10,10],1,1);
 quadtree.insert(aabb2);
 
-var potentialCollisions = new Array();
-quadtree.detectPotentialCollisions = function(potentialCollisions, aabb1);
+var potentialCollisions = [];
+potentialCollisions = quadtree.detectPotentialCollisions(potentialCollisions, aabb1);
 
 console.log(potentialCollisions);
 //Prints out potential collisions

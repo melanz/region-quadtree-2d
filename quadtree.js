@@ -113,9 +113,9 @@ Quadtree.prototype.detectPotentialCollisions = function(potentialCollisions, AAB
 	// Return all objects that could collide with the given object.
     var index = this.getIndex(AABB);
     if(index != -1 && this.nodes.length != 0) {
-        this.nodes[index].detectPotentialCollisions(potentialCollisions,AABB);
+        potentialCollisions = this.nodes[index].detectPotentialCollisions(potentialCollisions,AABB);
     }
-    potentialCollisions.concat(this.objects);
+    potentialCollisions = potentialCollisions.concat(this.objects);
     
     return potentialCollisions;
 }
