@@ -1,0 +1,24 @@
+{
+  "name": "region-quadtree-2d",
+  "version": "0.0.0",
+  "description": "Reqion quadtree in 2 dimensions.",
+  "main": "aabb.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/melanz/region-quadtree-2d.git"
+  },
+  "keywords": [
+    "quadtree"
+  ],
+  "author": "Daniel Melanz",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/melanz/region-quadtree-2d/issues"
+  }
+}
